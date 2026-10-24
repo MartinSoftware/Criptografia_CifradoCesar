@@ -92,7 +92,6 @@ Este es un proyecto personal en desarrollo. Si tienes sugerencias o ideas, ¡ere
 
 ## 👤 Autor
 
-**Tu Nombre**
 - GitHub: [@MartinSoftware](https://github.com/MartinSoftware)
 
 ---
