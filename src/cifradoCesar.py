@@ -3,13 +3,11 @@ import string
 ABECEDARIO_EN = list(string.ascii_uppercase)
 ABECEDARIO_ES = list(string.ascii_uppercase)
 ABECEDARIO_ES.insert(14, 'Ñ')
-
 class CifradoCesar():
-    
     def __init__(self):
         super().__init__()
     
-    def encriptar(self, mensajeIngresado, numDesplazamiento, alfabeto):
+    def encriptar(self, mensajeIngresado, numDesplazamiento, alfabeto, clave = None):
         if alfabeto == 0:
             abecedario_actual = ABECEDARIO_ES
             maximo = 27
@@ -21,16 +19,40 @@ class CifradoCesar():
         resultadoPre = [None] * len(mensajesSeparados)
         posicion = 0
         
-        for i in range(len(mensajesSeparados)):
-            posicion = self._busqueda(mensajesSeparados[i], abecedario_actual)
-            nueva_posicion = posicion + numDesplazamiento
+        if clave is None or str(clave).strip() == "":
+            for i in range(len(mensajesSeparados)):
+                posicion = self._busqueda(mensajesSeparados[i], abecedario_actual)
+                nueva_posicion = posicion + numDesplazamiento
+                
+                if nueva_posicion >= maximo:
+                    nueva_posicion = nueva_posicion - maximo
+                
+                resultadoPre[i] = abecedario_actual[nueva_posicion]
+        else:
+            lista = self._nuevaListaConClave(numDesplazamiento, abecedario_actual,clave)
+            resultadoPre = self._encriptadoConClave(mensajesSeparados,abecedario_actual,lista)
             
-            if nueva_posicion >= maximo:
-                nueva_posicion = nueva_posicion - maximo
-            
-            resultadoPre[i] = abecedario_actual[nueva_posicion]
-        
         return self._formatear_encriptado(mensajesSeparados, resultadoPre)
+    
+    def _nuevaListaConClave(self,numDesplazamiento, alfabeto, clave):
+        claveFormateada = list(dict.fromkeys(self._separarMensaje(clave)))
+        arregloInicial = list(dict.fromkeys([caracter for caracter in (claveFormateada + alfabeto) if caracter != " "]))
+        
+        arregloFinal = arregloInicial[-numDesplazamiento:] + arregloInicial[:-numDesplazamiento]
+        
+        return arregloFinal
+    
+    def _encriptadoConClave(self,mensaje,alfabeto,lista):
+        #_resultadoPre = [None] * len(lista)
+        _resultadoPre = [None] * len(mensaje)
+        for i in range(len(mensaje)):
+            posicionEncontrada = self._busqueda(mensaje[i],alfabeto)
+            if(mensaje[i]== " "):
+                _resultadoPre[i] = " "
+            else:
+                _resultadoPre[i]  = lista[posicionEncontrada]
+        return _resultadoPre
+        
         
     def _separarMensaje(self, texto):
         return list(texto.upper())
@@ -51,3 +73,4 @@ class CifradoCesar():
                 texto_final.append(" ")
                 
         return "".join(texto_final)
+

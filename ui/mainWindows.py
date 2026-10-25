@@ -22,6 +22,7 @@ class ventanaPrincipal(QMainWindow):
         self._resultText = ventana.findChild(object, "resultText")
         self._btnComenzar = ventana.findChild(object, "btnComenzar")
         self._btnBorrarTodo = ventana.findChild(object, "btnBorrarTodo")
+        self._claveText = ventana.findChild(object, "claveText")
         
         self._tipoCifrado = QButtonGroup(self)
         self._tipoCifrado.addButton(self._radioEncriptar,   1)
@@ -32,7 +33,7 @@ class ventanaPrincipal(QMainWindow):
         
         self._btnComenzar.clicked.connect(self._procesarMensaje)
         self._btnBorrarTodo.clicked.connect(self._limpiarTodo)
-        
+    
         #self._inputTEXT.textChanged.connect(lambda: self._log(self._inputTEXT.toPlainText()))
     
     def _log(self, valor):
@@ -46,6 +47,7 @@ class ventanaPrincipal(QMainWindow):
         getNumDesplazamiento = self._spinNumDesplazamiento.value()
         getMensajeEntrada = self._inputTEXT.toPlainText()
         getTipoAlfabeto = self._cbox_tipoAlfabeto.currentIndex()
+        getClave = self._claveText.toPlainText()
     
         """ print(modo_actual)
         print(str(getNumDesplazamiento))
@@ -56,7 +58,8 @@ class ventanaPrincipal(QMainWindow):
             resultado_final = self.cifrador.encriptar(
                 getMensajeEntrada,
                 getNumDesplazamiento,
-                getTipoAlfabeto
+                getTipoAlfabeto,
+                clave = getClave
             )
 
         elif modo_actual == "Desencriptar":
@@ -65,7 +68,8 @@ class ventanaPrincipal(QMainWindow):
             resultado_final = self.cifrador.encriptar(
                 getMensajeEntrada,
                 desplazamiento_final,
-                getTipoAlfabeto
+                getTipoAlfabeto,
+                clave = getClave
             )
         return self._resultText.setPlainText(resultado_final)
         
@@ -74,6 +78,7 @@ class ventanaPrincipal(QMainWindow):
         self._resultText.setPlainText("")
         self._cbox_tipoAlfabeto.setCurrentIndex(0)
         self._spinNumDesplazamiento.setValue(0)
+        self._claveText.setPlainText("")
         
         
         

@@ -9,7 +9,7 @@ Pequeña aplicación de escritorio desarrollada en **Python** con **PyQt6** que 
 ## ✨ Características actuales
 
 - Interfaz gráfica intuitiva con PyQt6.
-- Encriptación y desencriptación de texto mediante el cifrado César.
+- Encriptación y desencriptación de texto mediante el cifrado César y con ingreso opcional de clave.
 - Código modular y fácil de extender.
 
 ---
