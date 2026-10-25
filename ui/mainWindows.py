@@ -61,6 +61,7 @@ class ventanaPrincipal(QMainWindow):
                 getTipoAlfabeto,
                 clave = getClave
             )
+            print(getNumDesplazamiento)
 
         elif modo_actual == "Desencriptar":
             desplazamiento_final = -getNumDesplazamiento
@@ -69,8 +70,9 @@ class ventanaPrincipal(QMainWindow):
                 getMensajeEntrada,
                 desplazamiento_final,
                 getTipoAlfabeto,
-                clave = getClave
+                clave = getClave,
             )
+            print(desplazamiento_final)
         return self._resultText.setPlainText(resultado_final)
         
     def _limpiarTodo(self):

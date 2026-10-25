@@ -22,15 +22,23 @@ class CifradoCesar():
         if clave is None or str(clave).strip() == "":
             for i in range(len(mensajesSeparados)):
                 posicion = self._busqueda(mensajesSeparados[i], abecedario_actual)
-                nueva_posicion = posicion + numDesplazamiento
-                
-                if nueva_posicion >= maximo:
-                    nueva_posicion = nueva_posicion - maximo
-                
+                nueva_posicion = (posicion + numDesplazamiento)%maximo
+
                 resultadoPre[i] = abecedario_actual[nueva_posicion]
         else:
+            #desplazamiento = numDesplazamiento*-1
             lista = self._nuevaListaConClave(numDesplazamiento, abecedario_actual,clave)
             resultadoPre = self._encriptadoConClave(mensajesSeparados,abecedario_actual,lista)
+
+            if(numDesplazamiento < 0):
+                lista = self._nuevaListaConClave(numDesplazamiento*-1, abecedario_actual,clave)
+                resultadoPre = self._encriptadoConClave(mensajesSeparados,abecedario_actual,lista)
+
+                resultado = [None] * len(mensajesSeparados)
+                resultado = self._desencriptadoConClave(lista,mensajesSeparados,abecedario_actual)
+                resultadoPre = resultado
+            else:
+                pass
             
         return self._formatear_encriptado(mensajesSeparados, resultadoPre)
     
@@ -53,6 +61,16 @@ class CifradoCesar():
                 _resultadoPre[i]  = lista[posicionEncontrada]
         return _resultadoPre
         
+    def _desencriptadoConClave(self,claveArray,mensajeArray,abecedario):
+        resultadoPre = []
+        resultadoPre = [None] * len(mensajeArray)
+        for i in range(len(mensajeArray)):
+            posicionEncontrada = self._busqueda(mensajeArray[i],claveArray)
+            if(mensajeArray[i]== " "):
+                resultadoPre[i] = " "
+            else:
+                resultadoPre[i]  = abecedario[posicionEncontrada]
+        return resultadoPre
         
     def _separarMensaje(self, texto):
         return list(texto.upper())
